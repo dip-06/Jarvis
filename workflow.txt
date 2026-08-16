@@ -1,0 +1,122 @@
+=====================================================================
+JARVIS AI ASSISTANT — WORKFLOW & ARCHITECTURE
+Hardware reality: i5-12450H, 16GB RAM, Intel UHD (NO dedicated GPU)
+=====================================================================
+
+WHY THIS MATTERS FIRST
+-----------------------
+No GPU/VRAM means no CUDA acceleration. A local 7-8B model on CPU
+alone gets you ~5-10 tokens/sec — a 3-4 second delay before Jarvis
+even starts replying. That is NOT "lightning fast."
+So the design is a HYBRID BRAIN:
+  -> Free cloud API (Groq) for speed when you're online
+  -> Small quantized local model as an offline fallback
+This is the one thing all three tech breakdowns eventually agreed on,
+and it's the key decision the whole build hangs off of.
+
+
+THE THREE-STAGE PIPELINE
+-----------------------
+  [1. INPUT]  -->  [2. DECISION/BRAIN]  -->  [3. OUTPUT/ACTION]
+
+  1. INPUT (the "ears")
+     - openWakeWord listens continuously in the background (cheap, one CPU core)
+     - On trigger word, start recording -> faster-whisper transcribes speech to text
+     - Runs locally, no internet needed, near real-time on your CPU
+
+  2. DECISION (the "brain")
+     - Transcribed text is sent to the LLM with a JSON schema of "tools"
+       it's allowed to call (send_message, open_app, search_web, etc.)
+     - Router logic:
+         IF internet available -> send to Groq API (Llama 3.3 70B / 3.1 8B)
+                                   -> sub-second response, this is your "Tony Stark speed"
+         IF offline             -> fall back to local llama.cpp
+                                   (Qwen2.5-7B or Phi-3.5-mini, Q4 quantized)
+     - LLM returns either: (a) a spoken reply, or (b) a structured action command
+
+  3. OUTPUT (the "mouth" + "hands")
+     - Spoken reply -> Piper/Kokoro TTS -> played through speakers
+     - Action command -> Python router executes it:
+         * OS actions        -> pyautogui / pywinauto
+         * Browser/social    -> Playwright (opens real Chromium, scrolls, clicks, posts)
+         * Messaging         -> Telegram Bot API (official) or Playwright + WhatsApp Web
+         * VM/Kali commands  -> Paramiko SSH into your VirtualBox Kali+KDE box
+
+
+EXAMPLE END-TO-END RUN
+-----------------------
+You say:      "Jarvis, message Sarah on WhatsApp and update the Kali box."
+1. openWakeWord detects "Jarvis" -> starts listening
+2. faster-whisper transcribes the sentence to text
+3. Text + tool schema sent to Groq (or local fallback if offline)
+4. LLM returns TWO tool calls:
+     -> send_whatsapp("Sarah", "<message>")   handled by Playwright + WhatsApp Web
+     -> update_vm()                            handled by Paramiko -> SSH ->
+                                                "sudo apt update && sudo apt upgrade -y"
+5. Jarvis speaks confirmation: "Messages sent and system updated, sir."
+   (text -> Piper/Kokoro TTS -> speakers)
+
+
+BUILD ORDER (do it in this sequence)
+-----------------------
+1. Environment setup
+   - Install Python 3.11+
+   - pip install -r requirements.txt
+   - playwright install chromium
+   - Get a free Groq API key, store it in a .env file (never hardcode it)
+
+2. Get the ears working first
+   - Test openWakeWord standalone (does it trigger reliably on your mic?)
+   - Test faster-whisper standalone (transcribe a few sentences, check accuracy)
+
+3. Connect to the brain
+   - Write the function that sends transcribed text -> Groq API -> gets a reply
+   - Test plain conversation first, no tool-calling yet
+
+4. Add the local fallback
+   - Download a quantized GGUF model (Qwen2.5-7B-Instruct or Phi-3.5-mini, Q4_K_M)
+   - Wire up llama-cpp-python so it activates automatically when Groq is unreachable
+
+5. Give it a mouth
+   - Pipe the LLM's text reply into Piper or Kokoro TTS
+   - Test different voices/speed until it feels natural
+
+6. Give it hands (start simple, then expand)
+   - pyautogui/pywinauto: open an app, click a button
+   - Playwright: open a browser, scroll a feed, post something
+   - Telegram Bot API: send yourself a test message
+   - WhatsApp Web via Playwright: send a message (expect some fragility — it's UI automation)
+   - Paramiko: SSH into your Kali VM, run one harmless command
+
+7. Add memory
+   - ChromaDB + sentence-transformers (all-MiniLM-L6-v2) for remembering
+     past conversations/preferences — all runs on CPU, no GPU needed
+
+8. Add a face
+   - System tray icon (pystray) + a small always-on-top status window (PyQt6)
+     showing "listening / thinking / speaking" states
+
+9. Security pass (do NOT skip this)
+   - Run Jarvis under a non-admin Windows account
+   - Whitelist allowed commands — no silent file deletion, no silent installs
+   - Require a spoken/typed confirmation before any high-privilege action
+     (deleting files, installing software, VM system updates)
+   - Keep all IPC on localhost only — no open ports exposed to the network
+   - Store the Groq API key encrypted or at minimum out of source control
+
+10. Tune for speed
+   - Measure latency at each stage (STT, LLM, TTS)
+   - If local fallback ever feels slow: re-quantize smaller, or trim your
+     tool-schema/prompt size
+   - Keep the wake-word + STT stage always running in its own thread/async
+     task so Jarvis never "goes deaf" while the LLM or browser is busy
+
+
+KEY DESIGN PRINCIPLE
+-----------------------
+Everything runs concurrently, not sequentially:
+  - Audio capture, LLM inference, and action execution each get their own
+    thread/async task (Python's asyncio is enough — no need for gRPC/ZeroMQ
+    at this scale unless you outgrow a single-machine setup)
+  - This is what makes it FEEL instant even though under the hood
+    three or four things are happening in parallel

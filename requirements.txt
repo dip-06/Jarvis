@@ -1,0 +1,63 @@
+# =====================================================================
+#  JARVIS AI ASSISTANT — requirements.txt
+#  Built for: i5-12450H | 16GB RAM | Intel UHD (no dedicated GPU)
+#  Cost: $0.00 — every tool below is free / free-tier / open-source
+#  Install with:  pip install -r requirements.txt
+# =====================================================================
+
+# ---------- 1. WAKE WORD (always-listening trigger) ----------
+openwakeword          # tiny, CPU-only, barely uses resources idle
+
+# ---------- 2. SPEECH-TO-TEXT (your voice -> text) ----------
+faster-whisper        # CTranslate2 build of Whisper — fast on CPU, no GPU needed
+
+# ---------- 3. TEXT-TO-SPEECH (Jarvis's voice) ----------
+piper-tts             # fastest natural-sounding CPU TTS
+# kokoro-onnx         # ALTERNATIVE — 82M params, also great quality, pick one
+
+# ---------- 4. THE BRAIN — LLM (hybrid: cloud speed + offline fallback) ----------
+groq                  # official SDK — free tier, sub-second responses (primary brain)
+llama-cpp-python      # runs local GGUF model when offline (fallback brain)
+# Model to download manually (not a pip package):
+#   Qwen2.5-7B-Instruct-Q4_K_M.gguf  OR  Phi-3.5-mini-Q4_K_M.gguf  (~4-5GB)
+#   Get from Hugging Face, place in /models folder
+
+# ---------- 5. AUDIO INPUT/OUTPUT ----------
+pyaudio
+sounddevice
+numpy
+
+# ---------- 6. WINDOWS / OS CONTROL ("the hands") ----------
+pyautogui             # mouse/keyboard control
+pywinauto             # native Windows UI element control (more reliable than raw clicks)
+keyboard              # global hotkeys (manual override / interrupt)
+pynput                # alternative hotkey listener
+
+# ---------- 7. BROWSER AUTOMATION (social media, WhatsApp Web, scrolling) ----------
+playwright            # modern, more reliable than Selenium
+# after installing, run once: playwright install chromium
+
+
+
+### !! INSTALLED TILL HERE | FROM 8 INSTALL LATER !! ###
+
+
+# ---------- 8. MESSAGING ----------
+python-telegram-bot   # official Telegram Bot API wrapper — rock solid, truly free
+# WhatsApp has NO free official API for personal accounts —
+# handled via Playwright automating WhatsApp Web (see workflow.txt)
+
+# ---------- 9. VIRTUAL MACHINE CONTROL (optional — for your Kali VM) ----------
+paramiko              # SSH into VirtualBox Kali/KDE box, run commands invisibly
+
+# ---------- 10. MEMORY (remembers conversations/preferences) ----------
+chromadb              # local vector database, no GPU needed
+sentence-transformers # for all-MiniLM-L6-v2 embedding model (runs fine on CPU)
+
+# ---------- 11. THE "FACE" (minimal UI, no Electron bloat) ----------
+pystray               # system tray icon
+PyQt6                 # lightweight always-on-top status window (waveform/listening state)
+
+# ---------- 12. UTILITIES ----------
+python-dotenv         # store your free Groq API key safely, out of source code
+requests

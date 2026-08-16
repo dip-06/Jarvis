@@ -1,0 +1,10 @@
+search starting word like : search for, what is , how to , when, google, which,
+
+
+bug for tomorrow:
+:')
+Stop it when it opens browser during app search!!
+
+
+
+REPAIR WEB_WORKS AND CALL NORMALISE_APP_NAME
