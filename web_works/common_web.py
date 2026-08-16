@@ -1,0 +1,146 @@
+websites = {
+    # --- General, Search & AI Tools ---
+    "google": "https://google.com/",
+    "bing": "https://bing.com/",
+    "duckduckgo": "https://duckduckgo.com/",
+    "chatgpt": "https://chatgpt.com/",
+    "gemini": "https://gemini.google.com/",
+    "claude": "https://claude.ai/",
+    "perplex": "https://perplexity.ai/",
+    "copilot": "https://copilot.microsoft.com/",
+    "huggingface": "https://huggingface.co/",
+    "wolframalpha": "https://wolframalpha.com/",
+
+    # --- Developer Resources & Platforms ---
+    "github": "https://github.com/",
+    "gitlab": "https://gitlab.com/",
+    "bitbucket": "https://bitbucket.org/",
+    "stackoverflow": "https://stackoverflow.com/",
+    "leetcode": "https://leetcode.com/",
+    "hackerrank": "https://hackerrank.com/",
+    "codewars": "https://codewars.com/",
+    "dev.to": "https://dev.to/",
+    "hashnode": "https://hashnode.com/",
+    "replit": "https://replit.com/",
+    "codesandbox": "https://codesandbox.io/",
+    "w3schools": "https://w3schools.com/",
+    "mdn": "https://developer.mozilla.org/",
+    "python_docs": "https://docs.python.org/3/",
+    "pypi": "https://pypi.org/",
+    "docker_hub": "https://hub.docker.com/",
+    "npm": "https://npmjs.com/",
+    "vercel": "https://vercel.com/",
+    "netlify": "https://netlify.com/",
+    "postman": "https://postman.com/",
+    "regex101": "https://regex101.com/",
+
+    # --- Cloud & Infrastructure ---
+    "aws": "https://aws.amazon.com/",
+    "azure": "https://portal.azure.com/",
+    "gcp": "https://console.cloud.google.com/",
+    "digitalocean": "https://digitalocean.com/",
+    "cloudflare": "https://cloudflare.com/",
+    "heroku": "https://heroku.com/",
+
+    # --- Cybersecurity & CTF Platforms ---
+    "tryhackme": "https://tryhackme.com/",
+    "hackthebox": "https://hackthebox.com/",
+    "portswigger": "https://portswigger.net/web-security",
+    "picoctf": "https://picoctf.org/",
+    "virustotal": "https://virustotal.com/",
+    "shodan": "https://shodan.io/",
+    "cve_mitre": "https://cve.mitre.org/",
+    "exploit_db": "https://exploit-db.com/",
+    "cisa": "https://cisa.gov/known-exploited-vulnerabilities-catalog",
+    "cybrary": "https://cybrary.it/",
+    "overthewire": "https://overthewire.org/",
+    "sans": "https://sans.org/",
+    "nvd": "https://nvd.nist.gov/",
+    "haveibeenpwned": "https://haveibeenpwned.com/",
+
+    # --- Social Media & Networking ---
+    "instagram": "https://instagram.com/",
+    "x": "https://x.com/",
+    "linkedin": "https://linkedin.com/",
+    "facebook": "https://facebook.com/",
+    "youtube": "https://youtube.com/",
+    "reddit": "https://reddit.com/",
+    "discord": "https://discord.com/",
+    "tiktok": "https://tiktok.com/",
+    "pinterest": "https://pinterest.com/",
+    "telegram": "https://web.telegram.org/",
+    "whatsapp": "https://web.whatsapp.com/",
+    "snapchat": "https://snapchat.com/",
+    "threads": "https://threads.net/",
+
+    # --- Productivity & Collaboration ---
+    "notion": "https://notion.so/",
+    "trello": "https://trello.com/",
+    "figma": "https://figma.com/",
+    "gmail": "https://mail.google.com/",
+    "canva": "https://canva.com/",
+    "slack": "https://slack.com/",
+    "asana": "https://asana.com/",
+    "jira": "https://atlassian.net/",
+    "airtable": "https://airtable.com/",
+    "evernote": "https://evernote.com/",
+    "todoist": "https://todoist.com/",
+    "calendly": "https://calendly.com/",
+    "zoom": "https://zoom.us/",
+    "miro": "https://miro.com/",
+
+    # --- Cloud Storage & Office ---
+    "gdrive": "https://drive.google.com/",
+    "dropbox": "https://dropbox.com/",
+    "onedrive": "https://onedrive.live.com/",
+    "gdocs": "https://docs.google.com/",
+    "gsheets": "https://sheets.google.com/",
+    "office365": "https://office.com/",
+    "icloud": "https://icloud.com/",
+
+    # --- News & Reference ---
+    "wikipedia": "https://wikipedia.org/",
+    "bbc": "https://bbc.com/news",
+    "cnn": "https://cnn.com/",
+    "reuters": "https://reuters.com/",
+    "nytimes": "https://nytimes.com/",
+    "medium": "https://medium.com/",
+    "quora": "https://quora.com/",
+    "archive": "https://archive.org/",
+
+    # --- Shopping ---
+    "amazon": "https://amazon.com/",
+    "ebay": "https://ebay.com/",
+    "etsy": "https://etsy.com/",
+    "walmart": "https://walmart.com/",
+    "aliexpress": "https://aliexpress.com/",
+    "flipkart": "https://flipkart.com/",
+
+    # --- Streaming & Entertainment ---
+    "netflix": "https://netflix.com/",
+    "spotify": "https://open.spotify.com/",
+    "primevideo": "https://primevideo.com/",
+    "disneyplus": "https://disneyplus.com/",
+    "twitch": "https://twitch.tv/",
+    "soundcloud": "https://soundcloud.com/",
+
+    # --- Finance ---
+    "paypal": "https://paypal.com/",
+    "stripe": "https://stripe.com/",
+    "coinbase": "https://coinbase.com/",
+    "binance": "https://binance.com/",
+    "yahoofinance": "https://finance.yahoo.com/",
+
+    # --- Maps & Travel ---
+    "googlemaps": "https://maps.google.com/",
+    "booking": "https://booking.com/",
+    "airbnb": "https://airbnb.com/",
+    "skyscanner": "https://skyscanner.com/",
+
+    # --- Design & Writing Tools ---
+    "grammarly": "https://grammarly.com/",
+    "behance": "https://behance.net/",
+    "dribbble": "https://dribbble.com/",
+    "unsplash": "https://unsplash.com/",
+    "coolors": "https://coolors.co/"
+}
